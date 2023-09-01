@@ -21,10 +21,10 @@ public class ForExamples {
         System.out.println();
         System.out.println();
 
-        int[] array = {2,5,8,4,9,3,7};
+        int[] array = {2, 5, 8, 4, 9, 3, 7};
         int max = array[0];
         for (int i = 1; i < array.length; i++) {
-            if(max < array[i]){
+            if (max < array[i]) {
                 max = array[i];
             }
         }
