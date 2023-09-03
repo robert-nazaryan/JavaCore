@@ -55,6 +55,7 @@ public class ArrayUtil {
 
         // 9
         int sum = 0;
+
         for (int number : numbers) {
             sum += number;
         }
