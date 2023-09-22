@@ -9,7 +9,23 @@ public class DynamicArrayDemo {
         }
         dynamicArray.print();
 
+        dynamicArray.deleteByIndex(15);
         System.out.println();
-        System.out.println(dynamicArray.getByIndex(6));
+        dynamicArray.print();
+
+        dynamicArray.set(0, 8);
+        System.out.println();
+        dynamicArray.print();
+
+        dynamicArray.add(3, 56);
+        System.out.println();
+        dynamicArray.print();
+
+        System.out.println();
+        System.out.println(dynamicArray.exists(10));
+        System.out.println(dynamicArray.exists(80));
+
+        System.out.println(dynamicArray.getIndexByValue(7));
+        System.out.println(dynamicArray.getIndexByValue(80));
     }
 }
