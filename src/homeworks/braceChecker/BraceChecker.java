@@ -9,36 +9,30 @@ public class BraceChecker {
 
     public void check() {
         CharsStack chars = new CharsStack();
+
         for (int i = 0; i < text.length(); i++) {
-            if (isOpeningBrace(text.charAt(i))) {
-                chars.push(text.charAt(i));
-            } else if (!chars.isStackEmpty() && isClosingBrace(text.charAt(i))) {
-                char openingBrace = chars.pop();
-                if (!isValidBraces(text.charAt(i), openingBrace)) {
-                    System.err.println("Error: opened " + openingBrace + " but closed " + text.charAt(i) + " at " + i);
-                }
+            switch (text.charAt(i)) {
+                case '{', '(', '[':
+                    chars.push(text.charAt(i));
+                    break;
+                case '}', ')', ']':
+                    if (!chars.isStackEmpty()) {
+                        char openingBrace = chars.pop();
+                        if (!isPairedBraces(text.charAt(i), openingBrace)) {
+                            System.err.println("Error: opened " + openingBrace + " but closed " + text.charAt(i) + " at " + i);
+                        }
+                    } else {
+                        System.err.println("Error: closed " + text.charAt(i) + " but not opened");
+                    }
             }
+
         }
         while (!chars.isStackEmpty()) {
             System.err.println("Errpr: opened " + chars.pop() + " but not closed");
         }
     }
 
-    private boolean isOpeningBrace(char c) {
-        if (c == '{' || c == '[' || c == '(') {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isClosingBrace(char c) {
-        if (c == '}' || c == ']' || c == ')') {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isValidBraces(char closingBrace, char openingBrace) {
+    private boolean isPairedBraces(char closingBrace, char openingBrace) {
         if ((closingBrace == '}' && openingBrace == '{') || (closingBrace == ']' && openingBrace == '[')
                 || (closingBrace == ')' && openingBrace == '(')) {
             return true;
