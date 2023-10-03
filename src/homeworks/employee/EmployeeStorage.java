@@ -1,8 +1,8 @@
 package homeworks.employee;
 
 public class EmployeeStorage {
-    Employee[] employees = new Employee[10];
-    int index = 0;
+    private Employee[] employees = new Employee[10];
+    private int index = 0;
 
     public void add(Employee employee) {
         if (index == employees.length) {
