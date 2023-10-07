@@ -1,8 +1,8 @@
 package homeworks.employee;
 
 public class EmployeeStorage {
-    Employee[] employees = new Employee[10];
-    int index = 0;
+    private Employee[] employees = new Employee[10];
+    private int index = 0;
 
     public void add(Employee employee) {
         if (index == employees.length) {
@@ -31,6 +31,40 @@ public class EmployeeStorage {
                 printInfo(i);
             }
         }
+    }
+
+    public void deleteById(String id) {
+        if (findById(id) != -1) {
+            deleteEmployee(findById(id));
+        } else {
+            System.out.println("Invalid id");
+        }
+    }
+
+    public void changeEmployee(String id, String name, String surname, String company,
+                               String position, String salary) {
+        int index = findById(id);
+        employees[index].setName(name);
+        employees[index].setSurname(surname);
+        employees[index].setCompany(company);
+        employees[index].setPosition(position);
+        employees[index].setSalary(salary);
+    }
+
+    private int findById(String id) {
+        for (int i = 0; i < index; i++) {
+            if (employees[i].getEmployeeID().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void deleteEmployee(int index) {
+        for (int i = index; i < this.index; i++) {
+            employees[i] = employees[i + 1];
+        }
+        this.index--;
     }
 
     private void printInfo(int index) {
