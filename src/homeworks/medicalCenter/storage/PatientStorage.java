@@ -17,6 +17,21 @@ public class PatientStorage {
         return patientStorage;
     }
 
+    public void deletePatientByDoctor(Doctor doctor) {
+        for (int i = 0; i < index; i++) {
+            if (patients[i].getDoctor().equals(doctor)) {
+                deletePatientByIndex(i);
+            }
+        }
+    }
+
+    public void deletePatientByIndex(int index) {
+        for (int i = index; i < this.index; i++) {
+            patients[i] = patients[i + 1];
+        }
+        this.index--;
+    }
+
     public void printPatients() {
         for (int i = 0; i < index; i++) {
             System.out.println(patients[i].toString());

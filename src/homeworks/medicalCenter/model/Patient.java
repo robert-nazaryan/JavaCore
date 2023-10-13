@@ -8,7 +8,6 @@ public class Patient extends Person {
     private Date date;
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-    // TODO: 10/11/2023 Data
     public Patient(String id, String name, String surname, String phoneNumber, String email, Doctor doctor) {
         this.id = id;
         this.name = name;

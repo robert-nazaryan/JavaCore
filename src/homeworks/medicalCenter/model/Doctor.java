@@ -36,7 +36,7 @@ public class Doctor extends Person {
 
     @Override
     public int hashCode() {
-        return Objects.hash(profession);
+        return Objects.hash(id);
     }
 
     public void setProfession(String profession) {

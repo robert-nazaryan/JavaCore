@@ -28,8 +28,7 @@ public class MedicalCenterDemo {
                     doctorsStorage.searchDoctorByProfession(scanner.nextLine()).printDoctors();
                     break;
                 case "3":
-                    System.out.println("Enter doctor ID");
-                    doctorsStorage.deleteDoctorById(scanner.nextLine());
+                    deleteDoctorById();
                     break;
                 case "4":
                     changeDoctorById();
@@ -48,6 +47,14 @@ public class MedicalCenterDemo {
                     break;
             }
         }
+    }
+
+    private static void deleteDoctorById() {
+        System.out.println("Enter doctor ID");
+        String id = scanner.nextLine();
+        Doctor doctor = doctorsStorage.findDoctorById(id);
+        patentStorage.deletePatientByDoctor(doctor);
+        doctorsStorage.deleteDoctorById(id);
     }
 
     private static void printPatientByDoctor() {
