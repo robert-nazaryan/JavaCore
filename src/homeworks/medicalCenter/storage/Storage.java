@@ -8,7 +8,6 @@ public class Storage {
     private Person[] people = new Person[10];
     private int index;
 
-
     public void add(Person person) {
         if (index == people.length) {
             extend();
