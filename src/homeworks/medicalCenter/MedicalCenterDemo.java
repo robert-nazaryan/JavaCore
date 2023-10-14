@@ -2,15 +2,13 @@ package homeworks.medicalCenter;
 
 import homeworks.medicalCenter.model.Doctor;
 import homeworks.medicalCenter.model.Patient;
-import homeworks.medicalCenter.storage.DoctorsStorage;
-import homeworks.medicalCenter.storage.PatientStorage;
+import homeworks.medicalCenter.storage.Storage;
 
 import java.util.Scanner;
 
 public class MedicalCenterDemo {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final DoctorsStorage doctorsStorage = new DoctorsStorage();
-    private static final PatientStorage patentStorage = new PatientStorage();
+    private static final Storage storage = new Storage();
 
     public static void main(String[] args) {
         boolean isRun = true;
@@ -25,7 +23,7 @@ public class MedicalCenterDemo {
                     break;
                 case "2":
                     System.out.println("Enter doctor PROFESSION");
-                    doctorsStorage.searchDoctorByProfession(scanner.nextLine()).printDoctors();
+                    storage.searchDoctorByProfession(scanner.nextLine()).printDoctors();
                     break;
                 case "3":
                     deleteDoctorById();
@@ -40,7 +38,7 @@ public class MedicalCenterDemo {
                     printPatientByDoctor();
                     break;
                 case "7":
-                    patentStorage.printPatients();
+                    storage.printPatients();
                     break;
                 default:
                     System.out.println("Invalid command!");
@@ -52,27 +50,27 @@ public class MedicalCenterDemo {
     private static void deleteDoctorById() {
         System.out.println("Enter doctor ID");
         String id = scanner.nextLine();
-        Doctor doctor = doctorsStorage.findDoctorById(id);
-        patentStorage.deletePatientByDoctor(doctor);
-        doctorsStorage.deleteDoctorById(id);
+        Doctor doctor = (Doctor) storage.findDoctorById(id);
+        storage.deletePatientByDoctor(doctor);
+        storage.deleteDoctorById(id);
     }
 
     private static void printPatientByDoctor() {
-        doctorsStorage.printDoctors();
+        storage.printDoctors();
         System.out.println("Enter doctor by ID");
-        Doctor doctor = doctorsStorage.findDoctorById(scanner.nextLine());
+        Doctor doctor = (Doctor) storage.findDoctorById(scanner.nextLine());
 
         if (doctor == null) {
             System.out.println("Invalid id!");
             return;
         }
-        patentStorage.searchPatientByDoctor(doctor).printPatients();
+        storage.searchPatientByDoctor(doctor).printPatients();
     }
 
     private static void addPatient() {
-        doctorsStorage.printDoctors();
+        storage.printDoctors();
         System.out.println("Enter doctor by ID");
-        Doctor doctor = doctorsStorage.findDoctorById(scanner.nextLine());
+        Doctor doctor = (Doctor) storage.findDoctorById(scanner.nextLine());
 
         if (doctor == null) {
             System.out.println("Invalid id!");
@@ -88,12 +86,12 @@ public class MedicalCenterDemo {
         String phoneNumber = scanner.nextLine();
         System.out.println("Enter patient EMAIL");
         String email = scanner.nextLine();
-        patentStorage.add(new Patient(id, name, surname, phoneNumber, email, doctor));
+        storage.add(new Patient(id, name, surname, phoneNumber, email, doctor));
     }
 
     private static void changeDoctorById() {
         System.out.println("Enter doctor ID");
-        Doctor doctor = doctorsStorage.findDoctorById(scanner.nextLine());
+        Doctor doctor = (Doctor) storage.findDoctorById(scanner.nextLine());
 
         if (doctor == null) {
             System.out.println("Invalid id!");
@@ -124,7 +122,7 @@ public class MedicalCenterDemo {
         String email = scanner.nextLine();
         System.out.println("Enter doctor PROFESSION");
         String profession = scanner.nextLine();
-        doctorsStorage.add(new Doctor(id, name, surname, phoneNumber, email, profession));
+        storage.add(new Doctor(id, name, surname, phoneNumber, email, profession));
     }
 
     private static void printCommands() {
