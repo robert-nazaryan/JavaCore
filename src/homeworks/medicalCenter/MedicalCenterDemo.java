@@ -6,7 +6,7 @@ import homeworks.medicalCenter.storage.Storage;
 
 import java.util.Scanner;
 
-public class MedicalCenterDemo {
+public class MedicalCenterDemo implements Commands {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Storage storage = new Storage();
 
@@ -15,29 +15,29 @@ public class MedicalCenterDemo {
         while (isRun) {
             printCommands();
             switch (scanner.nextLine()) {
-                case "0":
+                case EXIT:
                     isRun = false;
                     break;
-                case "1":
+                case ADD_DOCTOR:
                     addDoctor();
                     break;
-                case "2":
+                case SEARCH_DOCTOR_BY_PROFESSION:
                     System.out.println("Enter doctor PROFESSION");
                     storage.searchDoctorByProfession(scanner.nextLine()).printDoctors();
                     break;
-                case "3":
+                case DELETE_DOCTOR_BY_ID:
                     deleteDoctorById();
                     break;
-                case "4":
+                case CHANGE_DOCTOR_BY_ID:
                     changeDoctorById();
                     break;
-                case "5":
+                case ADD_PATIENT:
                     addPatient();
                     break;
-                case "6":
+                case PRINT_PATIENT_BY_DOCTOR:
                     printPatientByDoctor();
                     break;
-                case "7":
+                case PRINT_PATIENTS:
                     storage.printPatients();
                     break;
                 default:
@@ -126,13 +126,13 @@ public class MedicalCenterDemo {
     }
 
     private static void printCommands() {
-        System.out.println("Enter 0 for EXIT");
-        System.out.println("Enter 1 for ADD DOCTOR");
-        System.out.println("Enter 2 for SEARCH DOCTOR BY PROFESSION");
-        System.out.println("Enter 3 for DELETE DOCTOR BY ID");
-        System.out.println("Enter 4 for CHANGE DOCTOR BY ID");
-        System.out.println("Enter 5 for ADD PATIENT");
-        System.out.println("Enter 6 for PRINT ALL PATIENTS BY DOCTOR");
-        System.out.println("Enter 7 for PRINT ALL PATIENTS");
+        System.out.println("Enter " + EXIT + " for EXIT");
+        System.out.println("Enter " + ADD_DOCTOR + " for ADD DOCTOR");
+        System.out.println("Enter " + SEARCH_DOCTOR_BY_PROFESSION + " for SEARCH DOCTOR BY PROFESSION");
+        System.out.println("Enter " + DELETE_DOCTOR_BY_ID + " for DELETE DOCTOR BY ID");
+        System.out.println("Enter " + CHANGE_DOCTOR_BY_ID + " for CHANGE DOCTOR BY ID");
+        System.out.println("Enter " + ADD_PATIENT + " for ADD PATIENT");
+        System.out.println("Enter " + PRINT_PATIENT_BY_DOCTOR + " for PRINT ALL PATIENTS BY DOCTOR");
+        System.out.println("Enter " + PRINT_PATIENTS + " for PRINT ALL PATIENTS");
     }
 }
