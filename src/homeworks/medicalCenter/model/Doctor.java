@@ -1,5 +1,7 @@
 package homeworks.medicalCenter.model;
 
+import homeworks.medicalCenter.storage.Storage;
+
 import java.util.Objects;
 
 public class Doctor extends Person {
@@ -45,5 +47,10 @@ public class Doctor extends Person {
 
     public String getProfession() {
         return profession;
+    }
+
+    @Override
+    public String getId() {
+        return super.getId();
     }
 }

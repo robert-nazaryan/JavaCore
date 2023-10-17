@@ -3,14 +3,17 @@ package homeworks.medicalCenter;
 import homeworks.medicalCenter.model.Doctor;
 import homeworks.medicalCenter.model.Patient;
 import homeworks.medicalCenter.storage.Storage;
+import homeworks.medicalCenter.util.DateUtil;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MedicalCenterDemo implements Commands {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Storage storage = new Storage();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         boolean isRun = true;
         while (isRun) {
             printCommands();
@@ -50,7 +53,7 @@ public class MedicalCenterDemo implements Commands {
     private static void deleteDoctorById() {
         System.out.println("Enter doctor ID");
         String id = scanner.nextLine();
-        Doctor doctor = (Doctor) storage.findDoctorById(id);
+        Doctor doctor = storage.findDoctorById(id);
         storage.deletePatientByDoctor(doctor);
         storage.deleteDoctorById(id);
     }
@@ -58,7 +61,7 @@ public class MedicalCenterDemo implements Commands {
     private static void printPatientByDoctor() {
         storage.printDoctors();
         System.out.println("Enter doctor by ID");
-        Doctor doctor = (Doctor) storage.findDoctorById(scanner.nextLine());
+        Doctor doctor = storage.findDoctorById(scanner.nextLine());
 
         if (doctor == null) {
             System.out.println("Invalid id!");
@@ -67,10 +70,11 @@ public class MedicalCenterDemo implements Commands {
         storage.searchPatientByDoctor(doctor).printPatients();
     }
 
-    private static void addPatient() {
+    private static void addPatient() throws ParseException {
         storage.printDoctors();
         System.out.println("Enter doctor by ID");
-        Doctor doctor = (Doctor) storage.findDoctorById(scanner.nextLine());
+        String doctorId = scanner.nextLine();
+        Doctor doctor = storage.findDoctorById(doctorId);
 
         if (doctor == null) {
             System.out.println("Invalid id!");
@@ -86,12 +90,19 @@ public class MedicalCenterDemo implements Commands {
         String phoneNumber = scanner.nextLine();
         System.out.println("Enter patient EMAIL");
         String email = scanner.nextLine();
-        storage.add(new Patient(id, name, surname, phoneNumber, email, doctor));
+        System.out.println("Enter patient REGISTER DATE");
+        Date registerDate = DateUtil.stringToDate(scanner.nextLine());
+        while (!storage.isFreeDate(registerDate, doctorId)) {
+            System.out.println("The doctor is busy at this date");
+            System.out.println("Enter another DATE");
+            registerDate = DateUtil.stringToDate(scanner.nextLine());
+        }
+        storage.add(new Patient(id, name, surname, phoneNumber, email, doctor, registerDate));
     }
 
     private static void changeDoctorById() {
         System.out.println("Enter doctor ID");
-        Doctor doctor = (Doctor) storage.findDoctorById(scanner.nextLine());
+        Doctor doctor = storage.findDoctorById(scanner.nextLine());
 
         if (doctor == null) {
             System.out.println("Invalid id!");

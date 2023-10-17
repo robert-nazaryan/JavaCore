@@ -1,21 +1,22 @@
 package homeworks.medicalCenter.model;
 
-import java.text.SimpleDateFormat;
+import homeworks.medicalCenter.storage.Storage;
+import homeworks.medicalCenter.util.DateUtil;
+
 import java.util.Date;
 
 public class Patient extends Person {
     private Doctor doctor;
-    private Date date;
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+    private Date registerDate;
 
-    public Patient(String id, String name, String surname, String phoneNumber, String email, Doctor doctor) {
+    public Patient(String id, String name, String surname, String phoneNumber, String email, Doctor doctor, Date registerDate) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.doctor = doctor;
-        this.date = new Date();
+        this.registerDate = registerDate;
     }
 
     public Doctor getDoctor() {
@@ -30,8 +31,12 @@ public class Patient extends Person {
                 ", id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", date=" + simpleDateFormat.format(date) +
+                ", register date=" + DateUtil.dateToString(registerDate) +
                 ", " + doctor.toString() +
                 '}';
+    }
+
+    public Date getRegisterDate() {
+        return registerDate;
     }
 }

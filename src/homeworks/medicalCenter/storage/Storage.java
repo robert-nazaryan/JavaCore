@@ -2,24 +2,38 @@ package homeworks.medicalCenter.storage;
 
 import homeworks.medicalCenter.model.Doctor;
 import homeworks.medicalCenter.model.Patient;
-import homeworks.medicalCenter.model.Person;
+
+import java.util.Date;
 
 public class Storage {
-    private Person[] people = new Person[10];
+    private Object[] objects = new Object[10];
     private int index;
+    private static final long THIRTY_MINUTES = 1800000;
 
-    public void add(Person person) {
-        if (index == people.length) {
+    public void add(Object o) {
+        if (index == objects.length) {
             extend();
         }
-        people[index++] = person;
+        objects[index++] = o;
+    }
+
+    public boolean isFreeDate(Date date, String doctorId) {
+        Storage patientsByOneDoctor = searchPatientByDoctor(findDoctorById(doctorId));
+        for (int i = 0; i < patientsByOneDoctor.getIndex(); i++) {
+            if (Math.abs(((Patient) patientsByOneDoctor.getObjects()[i]).getRegisterDate().getTime() -
+                    date.getTime()) < THIRTY_MINUTES) {
+                return false;
+            }
+
+        }
+        return true;
     }
 
     public Storage searchPatientByDoctor(Doctor doctor) {
         Storage patients = new Storage();
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Patient && ((Patient) people[i]).getDoctor().equals(doctor)) {
-                patients.add(people[i]);
+            if (objects[i] instanceof Patient && ((Patient) objects[i]).getDoctor().equals(doctor)) {
+                patients.add(objects[i]);
             }
         }
         return patients;
@@ -28,10 +42,9 @@ public class Storage {
     public Storage searchDoctorByProfession(String profession) {
         Storage doctors = new Storage();
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Doctor) {
-                if (((Doctor) people[i]).getProfession().equalsIgnoreCase(profession)) {
-                    doctors.add(people[i]);
-                }
+            if (objects[i] instanceof Doctor && ((Doctor) objects[i]).getProfession().equalsIgnoreCase(profession)) {
+                doctors.add(objects[i]);
+
             }
         }
         return doctors;
@@ -39,7 +52,7 @@ public class Storage {
 
     public void deletePatientByDoctor(Doctor doctor) {
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Patient && ((Patient) people[i]).getDoctor().equals(doctor)) {
+            if (objects[i] instanceof Patient && ((Patient) objects[i]).getDoctor().equals(doctor)) {
                 deleteByIndex(i);
             }
         }
@@ -47,24 +60,24 @@ public class Storage {
 
     public void printDoctors() {
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Doctor) {
-                System.out.println((people[i]).toString());
+            if (objects[i] instanceof Doctor) {
+                System.out.println((objects[i]).toString());
             }
         }
     }
 
     public void printPatients() {
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Patient) {
-                System.out.println((people[i]).toString());
+            if (objects[i] instanceof Patient) {
+                System.out.println((objects[i]).toString());
             }
         }
     }
 
-    public Person findDoctorById(String id) {
+    public Doctor findDoctorById(String id) {
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Doctor && people[i].getId().equals(id)) {
-                return people[i];
+            if ((objects[i] instanceof Doctor) && ((Doctor) objects[i]).getId().equals(id)) {
+                return (Doctor) objects[i];
             }
         }
         return null;
@@ -72,7 +85,7 @@ public class Storage {
 
     public void deleteDoctorById(String id) {
         for (int i = 0; i < index; i++) {
-            if (people[i] instanceof Doctor && people[i].getId().equals(id)) {
+            if (objects[i] instanceof Doctor && ((Doctor) objects[i]).getId().equals(id)) {
                 deleteByIndex(i);
             }
         }
@@ -80,14 +93,22 @@ public class Storage {
 
     private void deleteByIndex(int index) {
         for (int i = index; i < this.index; i++) {
-            people[i] = people[i + 1];
+            objects[i] = objects[i + 1];
         }
         this.index--;
     }
 
     private void extend() {
-        Person[] temp = new Person[people.length + 10];
-        System.arraycopy(people, 0, temp, 0, index);
-        people = temp;
+        Object[] temp = new Object[objects.length + 10];
+        System.arraycopy(objects, 0, temp, 0, index);
+        objects = temp;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public Object[] getObjects() {
+        return objects;
     }
 }
