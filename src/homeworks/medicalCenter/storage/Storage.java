@@ -88,7 +88,7 @@ public class Storage {
     public void deleteDoctorById(String id) {
         for (int i = 0; i < index; i++) {
             if (objects[i] instanceof Doctor && ((Doctor) objects[i]).getId().equals(id)) {
-                deleteByIndex(i);
+                deleteByIndex(i--);
             }
         }
     }
