@@ -50,10 +50,12 @@ public class Storage {
         return doctors;
     }
 
-    public void deletePatientByDoctor(Doctor doctor) {
+    public void deletePatientByDoctorId(String id) {
         for (int i = 0; i < index; i++) {
-            if (objects[i] instanceof Patient && ((Patient) objects[i]).getDoctor().equals(doctor)) {
-                deleteByIndex(i);
+            if (objects[i] instanceof Patient) {
+                if (((Patient) objects[i]).getDoctor().getId().equals(id)) {
+                    deleteByIndex(i--);
+                }
             }
         }
     }
@@ -92,8 +94,8 @@ public class Storage {
     }
 
     private void deleteByIndex(int index) {
-        for (int i = index; i < this.index; i++) {
-            objects[i] = objects[i + 1];
+        for (int i = index + 1; i < this.index; i++) {
+            objects[i - 1] = objects[i];
         }
         this.index--;
     }

@@ -53,8 +53,7 @@ public class MedicalCenterDemo implements Commands {
     private static void deleteDoctorById() {
         System.out.println("Enter doctor ID");
         String id = scanner.nextLine();
-        Doctor doctor = storage.findDoctorById(id);
-        storage.deletePatientByDoctor(doctor);
+        storage.deletePatientByDoctorId(id);
         storage.deleteDoctorById(id);
     }
 
