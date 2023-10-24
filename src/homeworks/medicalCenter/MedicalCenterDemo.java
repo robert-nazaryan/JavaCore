@@ -1,5 +1,7 @@
 package homeworks.medicalCenter;
 
+import homeworks.medicalCenter.exceptions.DoctorNotFoundException;
+import homeworks.medicalCenter.exceptions.ProfessionNotFoundException;
 import homeworks.medicalCenter.model.Doctor;
 import homeworks.medicalCenter.model.Patient;
 import homeworks.medicalCenter.storage.Storage;
@@ -25,8 +27,7 @@ public class MedicalCenterDemo implements Commands {
                     addDoctor();
                     break;
                 case SEARCH_DOCTOR_BY_PROFESSION:
-                    System.out.println("Enter doctor PROFESSION");
-                    storage.searchDoctorByProfession(scanner.nextLine()).printDoctors();
+                    searchDoctorByProfession();
                     break;
                 case DELETE_DOCTOR_BY_ID:
                     deleteDoctorById();
@@ -50,17 +51,35 @@ public class MedicalCenterDemo implements Commands {
         }
     }
 
+    private static void searchDoctorByProfession() {
+        System.out.println("Enter doctor PROFESSION");
+        try {
+            storage.searchDoctorByProfession(scanner.nextLine()).printDoctors();
+        } catch (ProfessionNotFoundException e) {
+            System.out.println(e);
+        }
+    }
+
     private static void deleteDoctorById() {
         System.out.println("Enter doctor ID");
         String id = scanner.nextLine();
         storage.deletePatientByDoctorId(id);
-        storage.deleteDoctorById(id);
+        try {
+            storage.deleteDoctorById(id);
+        } catch (DoctorNotFoundException e) {
+            System.out.println(e);
+        }
     }
 
     private static void printPatientByDoctor() {
         storage.printDoctors();
         System.out.println("Enter doctor by ID");
-        Doctor doctor = storage.findDoctorById(scanner.nextLine());
+        Doctor doctor = null;
+        try {
+            doctor = storage.findDoctorById(scanner.nextLine());
+        } catch (DoctorNotFoundException e) {
+            System.out.println(e);
+        }
 
         if (doctor == null) {
             System.out.println("Invalid id!");
@@ -73,7 +92,12 @@ public class MedicalCenterDemo implements Commands {
         storage.printDoctors();
         System.out.println("Enter doctor by ID");
         String doctorId = scanner.nextLine();
-        Doctor doctor = storage.findDoctorById(doctorId);
+        Doctor doctor = null;
+        try {
+            doctor = storage.findDoctorById(doctorId);
+        } catch (DoctorNotFoundException e) {
+            System.out.println(e);
+        }
 
         if (doctor == null) {
             System.out.println("Invalid id!");
@@ -101,7 +125,12 @@ public class MedicalCenterDemo implements Commands {
 
     private static void changeDoctorById() {
         System.out.println("Enter doctor ID");
-        Doctor doctor = storage.findDoctorById(scanner.nextLine());
+        Doctor doctor = null;
+        try {
+            doctor = storage.findDoctorById(scanner.nextLine());
+        } catch (DoctorNotFoundException e) {
+            System.out.println(e);
+        }
 
         if (doctor == null) {
             System.out.println("Invalid id!");
