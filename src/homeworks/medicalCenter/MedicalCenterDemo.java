@@ -132,10 +132,6 @@ public class MedicalCenterDemo implements Commands {
             System.out.println(e);
         }
 
-        if (doctor == null) {
-            System.out.println("Invalid id!");
-            return;
-        }
         System.out.println("Enter doctor NAME");
         doctor.setName(scanner.nextLine());
         System.out.println("Enter doctor SURNAME");
