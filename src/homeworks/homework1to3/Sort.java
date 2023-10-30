@@ -1,4 +1,4 @@
-package homeworks;
+package homeworks.homework1to3;
 
 public class Sort {
     public static void main(String[] args) {
