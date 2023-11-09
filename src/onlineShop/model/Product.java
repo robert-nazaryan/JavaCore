@@ -2,9 +2,10 @@ package onlineShop.model;
 
 import onlineShop.enums.ProductType;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Product {
+public class Product implements Serializable {
     private String id;
     private String name;
     private String description;

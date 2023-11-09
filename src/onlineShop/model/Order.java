@@ -3,11 +3,12 @@ package onlineShop.model;
 import onlineShop.enums.OrderStatus;
 import onlineShop.enums.PaymentMethod;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class Order {
+public class Order implements Serializable {
     private String id;
     private User user;
     private Product product;

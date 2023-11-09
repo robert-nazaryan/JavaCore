@@ -2,8 +2,11 @@ package onlineShop.storage;
 
 import onlineShop.enums.UserType;
 import onlineShop.model.User;
+import onlineShop.util.StorageSerializeUtil;
 
-public class UsersStorage {
+import java.io.Serializable;
+
+public class UserStorage implements Serializable {
     private User[] users = new User[10];
     private int index = 0;
 
@@ -11,6 +14,7 @@ public class UsersStorage {
         User[] temp = new User[users.length + 10];
         System.arraycopy(users, 0, temp, 0, index);
         users = temp;
+        StorageSerializeUtil.serializeUserStorage(this);
     }
 
     public void print() {
@@ -24,6 +28,7 @@ public class UsersStorage {
             extend();
         }
         users[index++] = user;
+        StorageSerializeUtil.serializeUserStorage(this);
     }
 
     public User findUserByEmail(String email) {

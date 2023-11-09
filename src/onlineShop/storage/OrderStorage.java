@@ -3,8 +3,11 @@ package onlineShop.storage;
 import onlineShop.enums.OrderStatus;
 import onlineShop.model.Order;
 import onlineShop.model.User;
+import onlineShop.util.StorageSerializeUtil;
 
-public class OrderStorage {
+import java.io.Serializable;
+
+public class OrderStorage implements Serializable {
     private Order[] orders = new Order[10];
     private int index = 0;
 
@@ -12,6 +15,7 @@ public class OrderStorage {
         Order[] temp = new Order[orders.length + 10];
         System.arraycopy(orders, 0, temp, 0, index);
         orders = temp;
+        StorageSerializeUtil.serializeOrderStorage(this);
     }
 
     public void add(Order order) {
@@ -19,6 +23,7 @@ public class OrderStorage {
             extend();
         }
         orders[index++] = order;
+        StorageSerializeUtil.serializeOrderStorage(this);
     }
 
     public void printOrders() {
@@ -41,6 +46,7 @@ public class OrderStorage {
                 orders[i].setOrderStatus(OrderStatus.CANCELED);
             }
         }
+        StorageSerializeUtil.serializeOrderStorage(this);
     }
 
     public Order findOrderById(String id) {

@@ -2,10 +2,11 @@ package onlineShop.model;
 
 import onlineShop.enums.UserType;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
     private String id;
     private String name;
     private String email;

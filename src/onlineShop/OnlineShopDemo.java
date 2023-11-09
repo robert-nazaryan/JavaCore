@@ -11,16 +11,17 @@ import onlineShop.model.Product;
 import onlineShop.model.User;
 import onlineShop.storage.OrderStorage;
 import onlineShop.storage.ProductStorage;
-import onlineShop.storage.UsersStorage;
+import onlineShop.storage.UserStorage;
+import onlineShop.util.StorageSerializeUtil;
 
 import java.util.Scanner;
 
 public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands, OrderStatusCommands,
         UserManuCommands, ProductTypeCommands, RegisterCommands {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final ProductStorage productStorage = new ProductStorage();
-    private static final UsersStorage usersStorage = new UsersStorage();
-    public static final OrderStorage orderStorage = new OrderStorage();
+    private static final ProductStorage productStorage = StorageSerializeUtil.deserializeProductStorage();
+    private static final UserStorage usersStorage = StorageSerializeUtil.deserializeUserStorage();
+    public static final OrderStorage orderStorage = StorageSerializeUtil.deserializeOrderStorage();
     private static boolean isRun = true;
 
     public static void main(String[] args) {
@@ -43,7 +44,6 @@ public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands,
             case EXIT:
                 isRun = false;
                 break;
-
             default:
                 System.out.println("Invalid command! Try again");
                 authorization();
@@ -55,7 +55,7 @@ public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands,
         System.out.println("Enter user EMAIL");
         String email = scanner.nextLine();
         if (usersStorage.isRegisteredEmail(email)) {
-            System.out.println("Enter use PASSWORD");
+            System.out.println("Enter user PASSWORD");
             String password = scanner.nextLine();
             if (usersStorage.isValidPassword(email, password)) {
                 showMenu(usersStorage.findUserByEmail(email));
@@ -72,7 +72,6 @@ public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands,
                 authorization();
             }
         }
-
     }
 
     private static void showMenu(User user) {
@@ -111,8 +110,6 @@ public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands,
                 case CHANGE_ORDER_STATUS:
                     changeOrderStatus();
                     break;
-
-
             }
         }
     }
@@ -140,6 +137,7 @@ public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands,
                 changeOrderStatus();
                 break;
         }
+        StorageSerializeUtil.serializeOrderStorage(orderStorage);
     }
 
 
@@ -172,7 +170,8 @@ public class OnlineShopDemo implements AdminManuCommands, AuthorizationCommands,
         String price = scanner.nextLine();
         System.out.println("Enter product STOCK QUANTITY");
         String stockQty = scanner.nextLine();
-        productStorage.add(new Product(name, description, Double.parseDouble(price), Integer.parseInt(stockQty), productType));
+        productStorage.add(new Product(name, description, Double.parseDouble(price),
+                Integer.parseInt(stockQty), productType));
     }
 
     private static void userMenu(User user) {

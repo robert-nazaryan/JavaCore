@@ -1,8 +1,11 @@
 package onlineShop.storage;
 
 import onlineShop.model.Product;
+import onlineShop.util.StorageSerializeUtil;
 
-public class ProductStorage {
+import java.io.Serializable;
+
+public class ProductStorage implements Serializable {
     private Product[] products = new Product[10];
     private int index = 0;
 
@@ -10,6 +13,7 @@ public class ProductStorage {
         Product[] temp = new Product[products.length + 10];
         System.arraycopy(products, 0, temp, 0, index);
         products = temp;
+        StorageSerializeUtil.serializeProductStorage(this);
     }
 
     public void print() {
@@ -33,6 +37,7 @@ public class ProductStorage {
             extend();
         }
         products[index++] = product;
+        StorageSerializeUtil.serializeProductStorage(this);
     }
 
     public void removeProductById(String id) {
@@ -48,5 +53,6 @@ public class ProductStorage {
             products[i] = products[i + 1];
         }
         this.index--;
+        StorageSerializeUtil.serializeProductStorage(this);
     }
 }
