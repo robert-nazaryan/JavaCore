@@ -1,18 +1,18 @@
-package onlineShop;
+package homeworks.onlineShop;
 
-import onlineShop.enums.OrderStatus;
-import onlineShop.enums.PaymentMethod;
-import onlineShop.enums.ProductType;
-import onlineShop.enums.UserType;
-import onlineShop.exceptions.OutOfStockException;
-import onlineShop.interfaces.*;
-import onlineShop.model.Order;
-import onlineShop.model.Product;
-import onlineShop.model.User;
-import onlineShop.storage.OrderStorage;
-import onlineShop.storage.ProductStorage;
-import onlineShop.storage.UserStorage;
-import onlineShop.util.StorageSerializeUtil;
+import homeworks.onlineShop.enums.OrderStatus;
+import homeworks.onlineShop.enums.PaymentMethod;
+import homeworks.onlineShop.enums.ProductType;
+import homeworks.onlineShop.enums.UserType;
+import homeworks.onlineShop.exceptions.OutOfStockException;
+import homeworks.onlineShop.interfaces.*;
+import homeworks.onlineShop.model.Order;
+import homeworks.onlineShop.model.Product;
+import homeworks.onlineShop.model.User;
+import homeworks.onlineShop.storage.OrderStorage;
+import homeworks.onlineShop.storage.ProductStorage;
+import homeworks.onlineShop.storage.UserStorage;
+import homeworks.onlineShop.util.StorageSerializeUtil;
 
 import java.util.Scanner;
 

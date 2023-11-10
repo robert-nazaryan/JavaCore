@@ -1,4 +1,4 @@
-package onlineShop.interfaces;
+package homeworks.onlineShop.interfaces;
 
 public interface AuthorizationCommands {
     String LOGIN = "0";

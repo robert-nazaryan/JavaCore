@@ -1,4 +1,4 @@
-package onlineShop.interfaces;
+package homeworks.onlineShop.interfaces;
 
 public interface UserManuCommands {
         String LOGOUT = "0";

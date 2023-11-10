@@ -1,4 +1,4 @@
-package onlineShop.exceptions;
+package homeworks.onlineShop.exceptions;
 
 public class OutOfStockException extends Exception {
     @Override

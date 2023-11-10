@@ -1,6 +1,6 @@
-package onlineShop.model;
+package homeworks.onlineShop.model;
 
-import onlineShop.enums.ProductType;
+import homeworks.onlineShop.enums.ProductType;
 
 import java.io.Serializable;
 import java.util.UUID;

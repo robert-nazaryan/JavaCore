@@ -1,9 +1,9 @@
-package onlineShop.storage;
+package homeworks.onlineShop.storage;
 
-import onlineShop.enums.OrderStatus;
-import onlineShop.model.Order;
-import onlineShop.model.User;
-import onlineShop.util.StorageSerializeUtil;
+import homeworks.onlineShop.enums.OrderStatus;
+import homeworks.onlineShop.model.Order;
+import homeworks.onlineShop.model.User;
+import homeworks.onlineShop.util.StorageSerializeUtil;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package onlineShop.interfaces;
+package homeworks.onlineShop.interfaces;
 
 public interface ProductTypeCommands {
     String ELECTRONICS = "0";

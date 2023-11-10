@@ -1,4 +1,4 @@
-package onlineShop.interfaces;
+package homeworks.onlineShop.interfaces;
 
 public interface RegisterCommands {
     String ADMIN = "0";
