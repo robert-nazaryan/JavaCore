@@ -11,26 +11,30 @@ public class FileUtil {
         String dirPath = "D:\\Java\\JavaCore\\src\\homeworks\\fileUtil\\files";
         String txtPath = "D:\\Java\\JavaCore\\src\\homeworks\\fileUtil\\files\\lorem.txt";
 
-        fileSearch(dirPath, "java.txt");
-        contentSearch(dirPath, "language");
-        findLines(txtPath, "Lorem");
-        printSizeOfPackage(dirPath);
-        createFileWithContent(dirPath, "newFile.txt", "Hello World!");
+//        System.out.println(fileSearch(dirPath, "t2.txt"));
+//        contentSearch(dirPath, "java");
+//        findLines(txtPath, "Lorem");
+//        System.out.println(printSizeOfPackage(dirPath));
+//        createFileWithContent(dirPath, "newFile.txt", "Hello World!");
     }
 
     //այս մեթոդը պետք է սքաններով վերցնի երկու string.
     // 1 - path թե որ ֆոլդերում ենք փնտրելու
     // 2 - fileName - ֆայլի անունը, որը փնտրում ենք։
     //Որպես արդյունք պտի ծրագիրը տպի true եթե կա էդ ֆայլը էդ պապկի մեջ, false եթե չկա։
-    static void fileSearch(String path, String fileName) {
-        File file = new File(path);
-        for (File listFile : file.listFiles()) {
-            if (listFile.getName().equals(fileName)) {
-                System.out.println(true);
-                return;
+    static boolean fileSearch(String path, String fileName) {
+        File directory = new File(path);
+        boolean exists = false;
+        for (File file : directory.listFiles()) {
+            if (file.isDirectory()) {
+                exists = fileSearch(path + "\\" + file.getName(), fileName);
+            } else {
+                if (file.getName().equals(fileName)) {
+                    exists = true;
+                }
             }
         }
-        System.out.println(false);
+        return exists;
     }
 
     //այս մեթոդը պետք է սքաններով վերցնի երկու string.
@@ -40,30 +44,23 @@ public class FileUtil {
     // մեր տված keyword-ը, եթե գտնի, պետք է տպի տվյալ ֆայլի անունը։
     static void contentSearch(String path, String keyword) {
         File directory = new File(path);
-        int index = 0;
         for (File file : directory.listFiles()) {
-            if (file.getName().endsWith(".txt")) {
-                index++;
-            }
-        }
-        File[] txtFiles = new File[index];
-        for (File file : directory.listFiles()) {
-            if (file.getName().endsWith(".txt")) {
-                txtFiles[--index] = file;
-            }
-        }
-        for (File file : txtFiles) {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-                String content;
-                while ((content = bufferedReader.readLine()) != null) {
-                    if (content.contains(keyword)) {
-                        System.out.println(file.getName());
+            if (file.isDirectory()) {
+                contentSearch(path + "\\" + file.getName(), keyword);
+            } else if (file.getName().endsWith(".txt")) {
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    String content;
+                    while ((content = br.readLine()) != null) {
+                        if (content.contains(keyword)) {
+                            System.out.println(file.getName());
+                        }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
+
     }
 
     //այս մեթոդը պետք է սքաններով վերցնի երկու string.
@@ -87,13 +84,17 @@ public class FileUtil {
     //այս մեթոդը պետք է սքաններով վերցնի մեկ string.
     // 1 - path թե որ ֆոլդերի չափն ենք ուզում հաշվել
     // ֆոլդերի բոլոր ֆայլերի չափսերը գումարում ենք իրար, ու տպում
-    static void printSizeOfPackage(String path) {
+    static long printSizeOfPackage(String path) {
         File directory = new File(path);
         long size = 0;
         for (File file : directory.listFiles()) {
-            size += file.length();
+            if (file.isDirectory()) {
+                size += printSizeOfPackage(path + "\\" + file.getName());
+            } else {
+                size += file.length();
+            }
         }
-        System.out.println(size);
+        return size;
     }
 
     //այս մեթոդը պետք է սքաններով վերցնի երեք string.
