@@ -11,11 +11,11 @@ public class FileUtil {
         String dirPath = "D:\\Java\\JavaCore\\src\\homeworks\\fileUtil\\files";
         String txtPath = "D:\\Java\\JavaCore\\src\\homeworks\\fileUtil\\files\\lorem.txt";
 
-//        System.out.println(fileSearch(dirPath, "t2.txt"));
-//        contentSearch(dirPath, "java");
-//        findLines(txtPath, "Lorem");
-//        System.out.println(printSizeOfPackage(dirPath));
-//        createFileWithContent(dirPath, "newFile.txt", "Hello World!");
+        System.out.println(fileSearch(dirPath, "t2.txt"));
+        contentSearch(dirPath, "java");
+        findLines(txtPath, "Lorem");
+        System.out.println(printSizeOfPackage(dirPath));
+        createFileWithContent(dirPath, "newFile.txt", "Hello World!");
     }
 
     //այս մեթոդը պետք է սքաններով վերցնի երկու string.
