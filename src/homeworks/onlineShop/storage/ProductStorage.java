@@ -4,55 +4,32 @@ import homeworks.onlineShop.model.Product;
 import homeworks.onlineShop.util.StorageSerializeUtil;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductStorage implements Serializable {
-    private Product[] products = new Product[10];
-    private int index = 0;
-
-    private void extend() {
-        Product[] temp = new Product[products.length + 10];
-        System.arraycopy(products, 0, temp, 0, index);
-        products = temp;
-        StorageSerializeUtil.serializeProductStorage(this);
-    }
+    private Set<Product> products = new HashSet<>();
 
     public void print() {
-        for (int i = 0; i < index; i++) {
-            System.out.println(products[i].toString());
-        }
+        System.out.println(products);
     }
 
-
     public Product findProductById(String id) {
-        for (int i = 0; i < index; i++) {
-            if (products[i].getId().equalsIgnoreCase(id)) {
-                return products[i];
+        for (Product product : products) {
+            if (product.getId().equals(id)) {
+                return product;
             }
         }
         return null;
     }
 
     public void add(Product product) {
-        if (index == products.length) {
-            extend();
-        }
-        products[index++] = product;
+        products.add(product);
         StorageSerializeUtil.serializeProductStorage(this);
     }
 
     public void removeProductById(String id) {
-        for (int i = 0; i < index; i++) {
-            if (products[i].getId().equals(id)) {
-                removeByIndex(i--);
-            }
-        }
-    }
-
-    private void removeByIndex(int index) {
-        for (int i = index; i < this.index; i++) {
-            products[i] = products[i + 1];
-        }
-        this.index--;
+        products.removeIf(product -> product.getId().equals(id));
         StorageSerializeUtil.serializeProductStorage(this);
     }
 }

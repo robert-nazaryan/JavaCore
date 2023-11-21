@@ -7,9 +7,9 @@ import homeworks.onlineShop.storage.UserStorage;
 import java.io.*;
 
 public class StorageSerializeUtil {
-    private static final String ORDERS_FILE_PATH = "D:\\Java\\JavaCore\\src\\homeworks.onlineShop\\data\\orderStorage.dat";
-    private static final String PRODUCTS_FILE_PATH = "D:\\Java\\JavaCore\\src\\homeworks.onlineShop\\data\\productStorage.dat";
-    private static final String USERS_FILE_PATH = "D:\\Java\\JavaCore\\src\\homeworks.onlineShop\\data\\userStorage.dat";
+    private static final String ORDERS_FILE_PATH = "D:\\Java\\JavaCore\\src\\homeworks\\onlineShop\\data\\orderStorage.dat";
+    private static final String PRODUCTS_FILE_PATH = "D:\\Java\\JavaCore\\src\\homeworks\\onlineShop\\data\\productStorage.dat";
+    private static final String USERS_FILE_PATH = "D:\\Java\\JavaCore\\src\\homeworks\\onlineShop\\data\\userStorage.dat";
 
     public static void serializeOrderStorage(OrderStorage orderStorage) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE_PATH))) {

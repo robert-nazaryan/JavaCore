@@ -6,55 +6,45 @@ import homeworks.onlineShop.model.User;
 import homeworks.onlineShop.util.StorageSerializeUtil;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class OrderStorage implements Serializable {
-    private Order[] orders = new Order[10];
-    private int index = 0;
-
-    private void extend() {
-        Order[] temp = new Order[orders.length + 10];
-        System.arraycopy(orders, 0, temp, 0, index);
-        orders = temp;
-        StorageSerializeUtil.serializeOrderStorage(this);
-    }
+    private List<Order> orders = new LinkedList<>();
 
     public void add(Order order) {
-        if (index == orders.length) {
-            extend();
-        }
-        orders[index++] = order;
+        orders.add(order);
         StorageSerializeUtil.serializeOrderStorage(this);
     }
 
     public void printOrders() {
-        for (int i = 0; i < index; i++) {
-            System.out.println(orders[i]);
-        }
+        System.out.println(orders);
     }
 
     public void printOrdersByUser(User user) {
-        for (int i = 0; i < index; i++) {
-            if (user.equals(orders[i].getUser())) {
-                System.out.println(orders[i]);
+        for (Order order : orders) {
+            if (order.getUser().equals(user)) {
+                System.out.println(order);
             }
         }
     }
 
     public void cancelById(String id) {
-        for (int i = 0; i < index; i++) {
-            if (orders[i].getId().equals(id)) {
-                orders[i].setOrderStatus(OrderStatus.CANCELED);
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
+                order.setOrderStatus(OrderStatus.CANCELED);
             }
         }
         StorageSerializeUtil.serializeOrderStorage(this);
     }
 
     public Order findOrderById(String id) {
-        for (int i = 0; i < index; i++) {
-            if (orders[i].getId().equals(id)) {
-                return orders[i];
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
+                return order;
             }
         }
         return null;
     }
+
 }
