@@ -9,18 +9,24 @@ public class FileAnalyzer {
     public Map<String, Integer> wordMap(String path) throws IOException {
         // Читаем файл, составляем мапу слово-количество и возвращаем ее
         Map<String, Integer> wordMap = new HashMap<>();
-        BufferedReader br = new BufferedReader(new FileReader(path));
         StringBuilder content = new StringBuilder();
         String line;
-        while ((line = br.readLine()) != null) {
-            content.append(line).append(" ");
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            while ((line = br.readLine()) != null) {
+                content.append(line).append(" ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        String[] words = String.valueOf(content).split(" ");
+        String[] words = String.valueOf(content).replaceAll("\\.", "")
+                .replaceAll(",", "").replaceAll(";", "").split(" ");
         for (String word : words) {
-            if (wordMap.containsKey(word)) {
-                wordMap.put(word, wordMap.get(word) + 1);
-            } else {
-                wordMap.put(word, 1);
+            if (!word.trim().isEmpty()) {
+                if (wordMap.containsKey(word)) {
+                    wordMap.put(word, wordMap.get(word) + 1);
+                } else {
+                    wordMap.put(word, 1);
+                }
             }
         }
         return wordMap;
@@ -28,48 +34,39 @@ public class FileAnalyzer {
 
     public int totalWordCount(String path) throws IOException {
         // Читаем файл, подсчитываем общее количество слов
-        BufferedReader br = new BufferedReader(new FileReader(path));
-        StringBuilder content = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            content.append(line).append(" ");
+        int count = 0;
+        Map<String, Integer> wordMap = wordMap(path);
+        for (Integer value : wordMap.values()) {
+            count += value;
         }
-        return String.valueOf(content).split(" ").length;
+        return count;
     }
 
     public int uniqueWordCount(String path) throws IOException {
         // Читаем файл, подсчитываем количество уникальных слов
-        BufferedReader br = new BufferedReader(new FileReader(path));
-        Set<String> uniqueWords = new HashSet<>();
-        StringBuilder content = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            content.append(line).append(" ");
+        int count = 0;
+        Map<String, Integer> wordMap = wordMap(path);
+        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
+            if (entry.getValue() == 1) {
+                count++;
+            }
         }
-        String[] words = String.valueOf(content).split(" ");
-        for (String word : words) {
-            uniqueWords.add(word);
-        }
-        return uniqueWords.size();
+        return count;
     }
 
     public Map<String, Integer> topFrequentWords(String path, int n) throws IOException {
         // Читаем файл, находим топ-N часто встречающихся слов
         Map<String, Integer> wordMap = wordMap(path);
-        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-        TreeSet<Integer> set = new TreeSet<>(Comparator.reverseOrder());
-        for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
-            set.add(entry.getValue());
-        }
-        for (Integer num : set) {
-            if ((n--) == 0) {
-                break;
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(wordMap.entrySet());
+        entries.sort(new Comparator<>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
             }
-            for (Map.Entry<String, Integer> entry : wordMap.entrySet()) {
-                if (entry.getValue().equals(num)) {
-                    sortedMap.put(entry.getKey(), num);
-                }
-            }
+        });
+        for (int i = 0; i < n; i++) {
+            sortedMap.put(entries.get(i).getKey(), entries.get(i).getValue());
         }
         return sortedMap;
     }
